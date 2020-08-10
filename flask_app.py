@@ -9,7 +9,7 @@ from wtforms.validators import DataRequired
 import os 
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
+import time
 
 # configuration
 #DATABASE = '/tmp/flaskr.db'
@@ -82,8 +82,13 @@ def show_info():
         return redirect(url_for('show_stats'))
     return render_template('infoform.html', form=form)
 
+@app.route('/aboutus')
+def about():
+    return render_template('aboutus.html')
+
 @app.route('/statistics')
 def show_stats():
+    timing = time.strftime('%X, %x')
     stats = Doggo.query.all()
     legend = 'Dog Count'
     labels = ['Affenpinscher', 'Australian Silky Terrier', 'Australian Terrier', 'Bichon Avanese', 'Bichon Frise', 'Bohemian Terrier', 'Bolognese', 'Border Terrier', 'Boston Terrier', 'Brussels Griffon', 'Cairn Terrier', 'Cavalier King Charles Spaniel', 'Chihuahua', 'Chinese Crested Dog', 'Chinese Imperial Chin', 'Chinese Temple Dog', 'Coton de tulear', 'Czech Terrier', 'Dachshund', 'Dandie Dinmont Terrier', 'English Toy Spaniel', 'German Hunting Terrier', 'Griffon Belge', 'Griffon Brabancon', 'Hairless Dog', 'Italian Greyhound', 'Jack Russel Terrier', 'Japanese Spaniel (Chin)', 'Japanese Spitz', 'Lakeland Terrier', 'Lhasa Apso', 'Little Lion Dog', 'Maltese', 'Manchester Terrier', 'Miniature Pinscher', 'Miniature Schnauzer', 'Norfolk Terrier', 'Norwegian Lundehund', 'Norwich Terrier', 'Papillon', 'Pekingnese', 'Pomeranian', 'Poodle (Toy / Miniature)', 'Pug', 'Schipperkee', 'Scottish Terrier', 'Sealyham Terrier', 'Shetland Sheepdog', 'Shih Tzu', 'Silky Terrier', 'Small Continental Spaniel', 'Small English Terrier', 'Small Spitz', 'Smooth Fox Terrier', 'Tibetan Spaniel', 'Toy Fox Terrier', 'Toy Terrier', 'Volpino Italiano', 'Welsh Terrier', 'West Highland Terrier', 'Wire-Haired Fox Terrier', 'Yorkshire Terrier', 'Mixed', 'Unknown']
@@ -94,7 +99,7 @@ def show_stats():
             if infoline.split(sep=",")[1][8:] == labels[index]:  #getting 2nd element which is the breed
                 values[index] += 1
 
-    return render_template('stats.html', stats=stats, legend=legend, labels=labels, values=values)
+    return render_template('stats.html', stats=stats, legend=legend, labels=labels, values=values, timing=timing)
 
 @app.errorhandler(404)
 def page_not_found(e):
