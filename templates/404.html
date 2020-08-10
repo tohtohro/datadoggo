@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card text-center">
+    <div class="card-header text-danger">
+      404 Error
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Oops. Page doesn't seem to exist!</h5>
+      <p class="card-text text-muted">Our guide doggos will gladly bring you back to our homepage. Click on the button below!!</p>
+      <a href="{{ url_for('index') }}" class="btn btn-primary">Back to DataDoggo Home</a>
+    </div>
+  </div>
+{% endblock %}
